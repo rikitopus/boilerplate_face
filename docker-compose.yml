@@ -1,0 +1,55 @@
+services:
+    facedigital-app:
+        container_name: facedigital-app
+        build:
+            context: ./devops/php
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+            - ./devops/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+        networks:
+            - facedigital-network
+
+    facedigital-server:
+        container_name: facedigital-server
+        restart: unless-stopped
+        image: nginx:1.27.0-alpine
+        ports:
+            - ${FORWARD_APP_PORT:-8000}:80
+        volumes:
+            - ./:/var/www
+            - ./devops/nginx/conf.d:/etc/nginx/conf.d/
+        networks:
+            - facedigital-network
+
+    facedigital-mysql:
+        image: mysql/mysql-server:8.0
+        container_name: facedigital-mysql
+        restart: unless-stopped
+        volumes:
+            - facedigital-mysql:/var/lib/mysql
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE:-facedigital_web}
+            - MYSQL_USER=${DB_USERNAME:-root}
+            - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
+        ports:
+            - ${FORWARD_DB_PORT:-3306}:3306
+        networks:
+            - facedigital-network
+
+    facedigital-mailpit:
+        image: 'axllent/mailpit:latest'
+        restart: unless-stopped
+        ports:
+            - ${FORWARD_MAILPIT_PORT:-1025}:1025
+            - ${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025
+        networks:
+            - facedigital-network
+
+networks:
+    facedigital-network:
+        driver: bridge
+
+volumes:
+    facedigital-mysql:
