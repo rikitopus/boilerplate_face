@@ -1,42 +1,42 @@
 <script setup>
 import { ref } from 'vue'
-import { PhBugBeetle } from '@phosphor-icons/vue'
 
 import { usePageStore } from '@/stores/page-store'
 
 import AppFooterLayout from './app/AppFooterLayout.vue'
 import AppHeaderLayout from './app/AppHeaderLayout.vue'
 import AppSidebarLayout from './app/AppSidebarLayout.vue'
+import AppDrawerLayout from './app/AppDrawerLayout.vue'
 import AppTopbarLayout from './app/AppTopbarLayout.vue'
 
 import AppHead from '@/components/layout/AppHead.vue'
 
 const pageStore = usePageStore()
 
-const sidebar = ref(null)
+const drawer = ref(null)
 
-const toggleSidebar = () => {
-    if (sidebar.value) {
-        sidebar.value.toggleSidebar()
+const openDrawer = () => {
+    if (drawer.value) {
+        drawer.value.open()
     }
 }
 
 const mainNavLinks= [
     {
         label: 'Dashboard',
-        icon: PhBugBeetle,
+        icon: 'pi-chart-bar',
         route: 'dashboard',
         routeGroup: 'dashboard',
     },
     {
         label: 'Configurações',
-        icon: PhBugBeetle,
+        icon: 'pi-cog',
         route:  'settings.profile.edit',
         routeGroup: 'settings.*',
     },
     {
         label: 'Componentes',
-        icon: PhBugBeetle,
+        icon: 'pi-microchip',
         route:  'components',
         routeGroup: 'components',
     }
@@ -47,13 +47,18 @@ const mainNavLinks= [
     <AppHead :title="pageStore.title" />
 
     <AppSidebarLayout
-        :current-route="route().current() || ''"
+        :v-bind="route().current()"
         :nav-links="mainNavLinks"
-        ref="sidebar"
     />
 
-    <div class="flex min-h-dvh flex-col bg-gray-50 lg:ml-[240px]">
-        <AppTopbarLayout @nav-button-click="toggleSidebar" />
+    <AppDrawerLayout
+        :v-bind="route().current()"
+        :nav-links="mainNavLinks"
+        ref="drawer"
+    />
+
+    <div class="flex min-h-dvh flex-col bg-gray-50 lg:ml-[240px] relative z-0">
+        <AppTopbarLayout @nav-button-click="openDrawer" />
 
         <AppHeaderLayout :page-title="pageStore.title" />
 

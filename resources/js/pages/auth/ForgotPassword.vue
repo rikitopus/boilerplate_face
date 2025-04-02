@@ -1,7 +1,12 @@
 <script setup>
 import InputError from '@/components/InputError.vue';
-import { Head, useForm, Link } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
+
+import Button from 'primevue/button'
+import FormInputText from '@/components/ui/form/FormInputText.vue'
+import FormPassword from '@/components/ui/form/FormPassword.vue'
+import AppLink from '@/components/ui/AppLink.vue'
 
 import { usePageStore } from '@/stores/page-store'
 
@@ -32,23 +37,25 @@ const submit = () => {
 
     <div class="space-y-6">
         <form @submit.prevent="submit">
-            <div class="grid gap-2">
-                <label for="email">Endereço de email</label>
-                <input id="email" type="email" name="email" class="text-black" autocomplete="off" v-model="form.email" autofocus placeholder="email@example.com" />
-                <InputError :message="form.errors.email" />
+            <div class="block">
+                <FormInputText
+                    id="email"
+                    label="Endereço de email"
+                    v-model="form.email"
+                    autocomplete="off"
+                    placeholder="nome@email.com"
+                    :error="form.errors.email"
+                    required
+                />
             </div>
-
-            <div class="my-6 flex items-center justify-start">
-                <button class="w-full" :disabled="form.processing">
-                    <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    Enviar email de recuperação
-                </button>
-            </div>
+            <Button class="mt-2 w-full" :loading="form.processing">
+                Enviar email de recuperação
+            </Button>
         </form>
 
         <div class="space-x-1 text-center text-sm text-muted-foreground">
             <span>Já possui conta?</span>
-            <Link :href="route('login')">Entrar</Link>
+            <AppLink :href="route('login')">Entrar</AppLink>
         </div>
     </div>
 </template>

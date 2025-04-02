@@ -1,12 +1,12 @@
 <script setup>
 defineProps({
     icon: {
-        type: Object,
+        type: String,
         required: true
     }
 })
 </script>
 
 <template>
-  <Component :is="icon" />
+    <span :class="['pi', icon]"></span>
 </template>

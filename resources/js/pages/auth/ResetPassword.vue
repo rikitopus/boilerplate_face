@@ -1,6 +1,6 @@
 <script setup>
 import InputError from '@/components/InputError.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 import { usePageStore } from '@/stores/page-store'

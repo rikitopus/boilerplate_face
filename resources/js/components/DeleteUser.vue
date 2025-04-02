@@ -1,37 +1,37 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import { PhTrash } from '@phosphor-icons/vue';
-import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
-import AppButton from '@/components/ui/button/AppButton.vue';
-import AppInput from '@/components/ui/form/AppInput.vue';
-import Modal from '@/components/Modal.vue';
+import Button from 'primevue/button'
+import FormInputText from '@/components/ui/form/FormInputText.vue'
+import FormPassword from '@/components/ui/form/FormPassword.vue'
+import Modal from '@/components/Modal.vue'
 
-const confirmingUserDeletion = ref(false);
+const confirmingUserDeletion = ref(false)
 
 const form = useForm({
     password: '',
-});
+})
 
 const confirmUserDeletion = () => {
     confirmingUserDeletion.value = true;
-};
+}
 
 const deleteUser = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     form.delete(route('settings.profile.destroy'), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onFinish: () => form.reset(),
-    });
-};
+    })
+}
 
 const closeModal = () => {
-    confirmingUserDeletion.value = false;
+    confirmingUserDeletion.value = false
 
-    form.clearErrors();
-    form.reset();
+    form.clearErrors()
+    form.reset()
 };
 </script>
 
@@ -41,12 +41,12 @@ const closeModal = () => {
             <strong class="font-bold text-lg text-danger-600">Atenção<br /></strong>
             Por favor, tenha certeza de que deseja excluir sua conta antes de continuar.
         </p>
-        <AppButton
+        <Button
             @click="confirmUserDeletion"
             label="Excluir conta"
             severity="danger"
             size="sm"
-            :icon-left="PhTrash"
+            icon="pi pi-trash"
         />
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
@@ -63,7 +63,7 @@ const closeModal = () => {
 
                 <div class="mt-6">
                     <form @submit="deleteUser" id="delete-user-form">
-                        <AppInput
+                        <FormPassword
                             id="password"
                             type="password"
                             label="Senha"
@@ -78,13 +78,13 @@ const closeModal = () => {
                 </div>
 
                 <div class="mt-6 flex justify-between">
-                    <AppButton
+                    <Button
                         @click="closeModal"
                         label="Cancelar"
-                        severity="gray"
+                        severity="secondary"
                         variant="outlined"
                     />
-                    <AppButton
+                    <Button
                         label="Confirmar exclusão"
                         type="submit"
                         form="delete-user-form"

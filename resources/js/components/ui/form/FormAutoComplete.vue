@@ -1,7 +1,8 @@
 <script setup>
-import InputText from 'primevue/inputtext'
-import AppLabel from './AppLabel.vue'
-import AppFieldError from './AppFieldError.vue'
+import AutoComplete from 'primevue/autocomplete'
+
+import FormLabel from './parts/FormLabel.vue'
+import FormFieldError from './parts/FormFieldError.vue'
 
 const props = defineProps({
     label: {
@@ -34,7 +35,7 @@ defineOptions({
 </script>
 
 <template>
-    <AppLabel
+    <FormLabel
         v-if="label"
         class="inline-block w-full"
         :label="label"
@@ -42,12 +43,19 @@ defineOptions({
         :for="id"
         :required="required"
     />
-    <InputText
+    <AutoComplete
         v-bind="$attrs"
-        :id="id"
-        class="block w-full p-2 border border-gray-200 focus:border-primary-500 outline-none rounded-md"
-        :required="required"
-        :aria-describedby="error && id ? id + '_error' : null"
+        :inputId="id"
+        class="block w-full"
+        fluid
+        :pt="{
+            pcInputText: {
+                root: {
+                    'aria-describedby': error && id ? id + '_error' : null,
+                    required: required
+                }
+            }
+        }"
     />
-    <AppFieldError :id="error && id ? id + '_error' : null" :message="error" />
+    <FormFieldError :id="error && id ? id + '_error' : null" :message="error" />
 </template>

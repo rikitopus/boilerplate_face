@@ -1,11 +1,10 @@
 <script setup>
-import InputError from '@/components/InputError.vue'
 import SettingsLayout from '@/layouts/settings/Layout.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-import AppButton from '@/components/ui/button/AppButton.vue'
-import AppInput from '@/components/ui/form/AppInput.vue'
+import Button from 'primevue/button'
+import FormPassword from '@/components/ui/form/FormPassword.vue'
 
 import { usePageStore } from '@/stores/page-store'
 
@@ -51,20 +50,21 @@ const updatePassword = () => {
 
             <form @submit.prevent="updatePassword" class="space-y-6">
                 <div class="grid gap-2">
-                    <AppInput
+                    <FormPassword
                         id="current_password"
                         label="Senha atual"
                         v-model="form.current_password"
                         type="password"
                         autocomplete="current-password"
                         placeholder="Senha atual"
+                        :feedback="false"
                         :error="form.errors.current_password"
                         required
                     />
                 </div>
 
                 <div class="grid gap-2">
-                    <AppInput
+                    <FormPassword
                         id="password"
                         label="Nova senha"
                         v-model="form.password"
@@ -77,7 +77,7 @@ const updatePassword = () => {
                 </div>
 
                 <div class="grid gap-2">
-                    <AppInput
+                    <FormPassword
                         id="password_confirmation"
                         label="Confirmar nova senha"
                         v-model="form.password_confirmation"
@@ -90,7 +90,7 @@ const updatePassword = () => {
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <AppButton
+                    <Button
                         label="Salvar nova senha"
                         type="submit"
                         :disabled="form.processing"

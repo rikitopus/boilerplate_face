@@ -1,10 +1,11 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3'
 
-import DeleteUser from '@/components/DeleteUser.vue';
-import AppButton from '@/components/ui/button/AppButton.vue';
-import AppInput from '@/components/ui/form/AppInput.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
+import DeleteUser from '@/components/DeleteUser.vue'
+import FormInputText from '@/components/ui/form/FormInputText.vue'
+import SettingsLayout from '@/layouts/settings/Layout.vue'
+
+import Button from 'primevue/button';
 
 import { usePageStore } from '@/stores/page-store'
 
@@ -40,10 +41,10 @@ const submit = () => {
 
 <template>
     <SettingsLayout>
-        <div class="flex flex-col space-y-6">
+        <div class="flex flex-col space-y-6 mb-6">
             <form @submit.prevent="submit" class="space-y-6">
                 <div class="grid gap-2">
-                    <AppInput
+                    <FormInputText
                         label="Nome"
                         id="name"
                         v-model="form.name"
@@ -54,7 +55,7 @@ const submit = () => {
                 </div>
 
                 <div class="grid gap-2">
-                    <AppInput
+                    <FormInputText
                         label="Email"
                         id="email"
                         type="email"
@@ -83,10 +84,10 @@ const submit = () => {
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <AppButton
+                    <Button
                         label="Salvar"
                         type="submit"
-                        :disabled="form.processing"
+                        :loading="form.processing"
                     />
                 </div>
             </form>
